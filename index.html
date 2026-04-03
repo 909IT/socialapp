@@ -3,1565 +3,787 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>909IT SocialDesk — Unified Social Inbox</title>
+<title>909IT SocialDesk</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --red: #e8001c;
-    --red-dark: #b8001a;
-    --red-light: #fff0f2;
-    --black: #0d0d0d;
-    --white: #ffffff;
-    --gray-50: #f9f9f8;
-    --gray-100: #f2f2f0;
-    --gray-200: #e5e5e2;
-    --gray-300: #d0d0cc;
-    --gray-400: #a8a8a3;
-    --gray-500: #737370;
-    --gray-600: #4a4a47;
-    --gray-700: #2e2e2b;
-    --fb: #1877F2;
-    --fb-bg: #eef3fd;
-    --ig: #C13584;
-    --ig-bg: #fceef8;
-    --li: #0A66C2;
-    --li-bg: #eef4fd;
-    --wa: #25D366;
-    --wa-bg: #eefbf3;
-    --sidebar-w: 280px;
-    --topbar-h: 56px;
-    --font: 'DM Sans', sans-serif;
-    --mono: 'DM Mono', monospace;
-    --radius: 10px;
-    --radius-sm: 6px;
-    --radius-lg: 16px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
-    --shadow-lg: 0 10px 40px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.06);
+    --red: #e8001c; --red-dark: #b8001a; --red-light: #fff0f2;
+    --black: #0d0d0d; --white: #ffffff;
+    --gray-50: #f9f9f8; --gray-100: #f2f2f0; --gray-200: #e5e5e2;
+    --gray-300: #d0d0cc; --gray-400: #a8a8a3; --gray-500: #737370;
+    --gray-600: #4a4a47; --gray-700: #2e2e2b;
+    --fb: #1877F2; --fb-bg: #eef3fd;
+    --ig: #C13584; --ig-bg: #fceef8;
+    --li: #0A66C2; --li-bg: #eef4fd;
+    --wa: #25D366; --wa-bg: #eefbf3;
+    --sidebar-w: 280px; --topbar-h: 56px;
+    --font: 'DM Sans', sans-serif; --mono: 'DM Mono', monospace;
+    --radius: 10px; --radius-sm: 6px; --radius-lg: 16px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08); --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
   }
+  html, body { height: 100%; font-family: var(--font); background: var(--gray-100); color: var(--black); font-size: 14px; -webkit-font-smoothing: antialiased; }
 
-  html, body {
-    height: 100%;
-    font-family: var(--font);
-    background: var(--gray-100);
-    color: var(--black);
-    font-size: 14px;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-  }
+  /* ── CONFIG BANNER ── */
+  #config-banner { background: #fef3c7; border-bottom: 1px solid #f59e0b; padding: 10px 20px; font-size: 12px; color: #92400e; display: flex; align-items: center; gap: 8px; }
+  #config-banner strong { font-weight: 600; }
+  #config-banner a { color: #92400e; text-decoration: underline; cursor: pointer; }
 
-  /* ── ONBOARDING ─────────────────────────────────── */
-  #onboarding {
-    min-height: 100vh;
-    background: var(--black);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  #onboarding::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 40px,
-      rgba(255,255,255,0.015) 40px,
-      rgba(255,255,255,0.015) 41px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 40px,
-      rgba(255,255,255,0.015) 40px,
-      rgba(255,255,255,0.015) 41px
-    );
-    pointer-events: none;
-  }
-
-  .ob-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 48px;
-    animation: fadeUp 0.5s ease both;
-  }
-
-  .ob-logo-mark {
-    font-family: var(--font);
-    font-weight: 600;
-    font-size: 22px;
-    color: var(--white);
-    letter-spacing: -0.5px;
-  }
-
+  /* ── ONBOARDING ── */
+  #onboarding { min-height: 100vh; background: var(--black); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; position: relative; overflow: hidden; }
+  #onboarding::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 41px), repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 41px); pointer-events: none; }
+  .ob-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 48px; animation: fadeUp 0.5s ease both; }
+  .ob-logo-mark { font-weight: 600; font-size: 22px; color: var(--white); }
   .ob-logo-mark span { color: var(--red); }
+  .ob-logo-tag { font-size: 11px; color: var(--gray-400); letter-spacing: 0.5px; border-left: 1px solid var(--gray-600); padding-left: 10px; }
+  .ob-card { background: var(--white); border-radius: var(--radius-lg); padding: 40px; width: 100%; max-width: 500px; box-shadow: var(--shadow-lg); animation: fadeUp 0.5s 0.1s ease both; }
+  .ob-heading { font-size: 22px; font-weight: 600; letter-spacing: -0.4px; margin-bottom: 8px; }
+  .ob-sub { font-size: 13px; color: var(--gray-500); margin-bottom: 28px; line-height: 1.6; }
 
-  .ob-logo-tag {
-    font-size: 11px;
-    font-weight: 400;
-    color: var(--gray-400);
-    letter-spacing: 0.5px;
-    border-left: 1px solid var(--gray-600);
-    padding-left: 10px;
-    margin-left: 2px;
-  }
+  /* n8n URL config section */
+  .config-section { background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 16px; margin-bottom: 24px; }
+  .config-label { font-size: 11px; font-weight: 600; color: var(--gray-500); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px; }
+  .config-input { width: 100%; padding: 9px 12px; border: 1px solid var(--gray-200); border-radius: var(--radius-sm); font-family: var(--mono); font-size: 12px; color: var(--black); background: var(--white); outline: none; }
+  .config-input:focus { border-color: var(--gray-400); }
+  .config-hint { font-size: 11px; color: var(--gray-400); margin-top: 6px; line-height: 1.5; }
 
-  .ob-card {
-    background: var(--white);
-    border-radius: var(--radius-lg);
-    padding: 40px;
-    width: 100%;
-    max-width: 480px;
-    box-shadow: var(--shadow-lg);
-    animation: fadeUp 0.5s 0.1s ease both;
-  }
-
-  .ob-heading {
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--black);
-    letter-spacing: -0.4px;
-    margin-bottom: 8px;
-  }
-
-  .ob-sub {
-    font-size: 13px;
-    color: var(--gray-500);
-    margin-bottom: 32px;
-    line-height: 1.6;
-  }
-
-  .platform-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 16px;
-    border: 1.5px solid var(--gray-200);
-    border-radius: var(--radius);
-    margin-bottom: 10px;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: var(--white);
-    position: relative;
-  }
-
+  .platform-row { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 1.5px solid var(--gray-200); border-radius: var(--radius); margin-bottom: 10px; cursor: pointer; transition: all 0.2s; background: var(--white); position: relative; }
   .platform-row:hover { border-color: var(--gray-300); background: var(--gray-50); }
-
-  .platform-row.connected {
-    border-color: #22c55e;
-    background: #f0fdf4;
-  }
-
-  .platform-row.connecting {
-    border-color: var(--gray-300);
-    background: var(--gray-50);
-    pointer-events: none;
-  }
-
-  .plat-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
+  .platform-row.connected { border-color: #22c55e; background: #f0fdf4; }
+  .platform-row.error { border-color: var(--red); background: var(--red-light); }
+  .plat-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .plat-info { flex: 1; }
-  .plat-name { font-weight: 500; font-size: 14px; color: var(--black); }
+  .plat-name { font-weight: 500; font-size: 14px; }
   .plat-desc { font-size: 12px; color: var(--gray-500); margin-top: 1px; }
-
-  .plat-action {
-    font-size: 12px;
-    font-weight: 500;
-    padding: 6px 14px;
-    border-radius: var(--radius-sm);
-    border: 1.5px solid var(--gray-200);
-    background: var(--white);
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-
-  .plat-action:hover { border-color: var(--gray-400); background: var(--gray-50); }
-
-  .plat-action.connected-btn {
-    background: #f0fdf4;
-    border-color: #22c55e;
-    color: #16a34a;
-  }
-
-  .plat-action.loading-btn {
-    color: var(--gray-400);
-    border-color: var(--gray-200);
-    animation: pulse 1s infinite;
-  }
-
-  .ob-cta {
-    width: 100%;
-    margin-top: 24px;
-    padding: 14px;
-    background: var(--red);
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius);
-    font-family: var(--font);
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s;
-    letter-spacing: 0.1px;
-  }
-
+  .plat-action { font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: var(--radius-sm); border: 1.5px solid var(--gray-200); background: var(--white); cursor: pointer; transition: all 0.15s; white-space: nowrap; font-family: var(--font); }
+  .plat-action:hover { border-color: var(--gray-400); }
+  .plat-action.connected-btn { background: #f0fdf4; border-color: #22c55e; color: #16a34a; }
+  .ob-cta { width: 100%; margin-top: 24px; padding: 14px; background: var(--red); color: var(--white); border: none; border-radius: var(--radius); font-family: var(--font); font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.15s; }
   .ob-cta:hover { background: var(--red-dark); }
   .ob-cta:disabled { background: var(--gray-300); cursor: not-allowed; }
-
-  .ob-skip {
-    margin-top: 14px;
-    font-size: 12px;
-    color: var(--gray-400);
-    text-align: center;
-    cursor: pointer;
-  }
-
+  .ob-skip { margin-top: 14px; font-size: 12px; color: var(--gray-400); text-align: center; cursor: pointer; }
   .ob-skip:hover { color: var(--gray-600); }
 
-  /* ── MAIN APP ───────────────────────────────────── */
-  #app {
-    display: none;
-    height: 100vh;
-    flex-direction: column;
-    background: var(--gray-100);
-  }
-
-  /* Topbar */
-  .topbar {
-    height: var(--topbar-h);
-    background: var(--black);
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    gap: 16px;
-    flex-shrink: 0;
-    z-index: 10;
-  }
-
-  .topbar-logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 600;
-    font-size: 15px;
-    color: var(--white);
-    letter-spacing: -0.3px;
-  }
-
+  /* ── APP ── */
+  #app { display: none; height: 100vh; flex-direction: column; }
+  .topbar { height: var(--topbar-h); background: var(--black); display: flex; align-items: center; padding: 0 20px; gap: 16px; flex-shrink: 0; }
+  .topbar-logo { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 15px; color: var(--white); }
   .topbar-logo-red { color: var(--red); }
-
-  .topbar-divider {
-    width: 1px;
-    height: 16px;
-    background: var(--gray-600);
-    margin: 0 2px;
-  }
-
-  .topbar-product {
-    font-size: 12px;
-    font-weight: 400;
-    color: var(--gray-400);
-    letter-spacing: 0.3px;
-  }
-
+  .topbar-divider { width: 1px; height: 16px; background: var(--gray-600); }
+  .topbar-product { font-size: 12px; color: var(--gray-400); }
   .topbar-spacer { flex: 1; }
-
-  .topbar-stats {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .stat-chip {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: var(--gray-400);
-  }
-
-  .stat-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--wa);
-  }
-
+  .stat-chip { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--gray-400); }
+  .stat-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--wa); }
   .stat-dot.red { background: var(--red); }
-
   .topbar-actions { display: flex; gap: 8px; }
-
-  .topbar-btn {
-    padding: 6px 14px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--gray-600);
-    background: transparent;
-    color: var(--gray-300);
-    font-family: var(--font);
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
+  .topbar-btn { padding: 6px 14px; border-radius: var(--radius-sm); border: 1px solid var(--gray-600); background: transparent; color: var(--gray-300); font-family: var(--font); font-size: 12px; cursor: pointer; transition: all 0.15s; }
   .topbar-btn:hover { border-color: var(--gray-400); color: var(--white); }
   .topbar-btn.active { background: var(--red); border-color: var(--red); color: var(--white); }
 
-  /* Layout */
-  .layout {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
-    gap: 1px;
-    background: var(--gray-200);
-  }
+  .layout { display: flex; flex: 1; overflow: hidden; gap: 1px; background: var(--gray-200); }
 
   /* Sidebar */
-  .sidebar {
-    width: var(--sidebar-w);
-    min-width: var(--sidebar-w);
-    background: var(--white);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .sidebar-header {
-    padding: 16px 16px 12px;
-    border-bottom: 1px solid var(--gray-100);
-    flex-shrink: 0;
-  }
-
-  .sidebar-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--black);
-    letter-spacing: -0.2px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .unread-total {
-    font-size: 11px;
-    font-weight: 500;
-    background: var(--red);
-    color: var(--white);
-    border-radius: 10px;
-    padding: 1px 7px;
-    font-family: var(--mono);
-  }
-
-  .search-box {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--gray-50);
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius-sm);
-    padding: 7px 10px;
-    margin-bottom: 10px;
-  }
-
-  .search-box input {
-    border: none;
-    background: none;
-    outline: none;
-    font-family: var(--font);
-    font-size: 13px;
-    color: var(--black);
-    width: 100%;
-  }
-
+  .sidebar { width: var(--sidebar-w); min-width: var(--sidebar-w); background: var(--white); display: flex; flex-direction: column; overflow: hidden; }
+  .sidebar-header { padding: 16px 16px 12px; border-bottom: 1px solid var(--gray-100); flex-shrink: 0; }
+  .sidebar-title { font-size: 13px; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+  .unread-total { font-size: 11px; font-weight: 500; background: var(--red); color: var(--white); border-radius: 10px; padding: 1px 7px; font-family: var(--mono); }
+  .search-box { display: flex; align-items: center; gap: 8px; background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 7px 10px; margin-bottom: 10px; }
+  .search-box input { border: none; background: none; outline: none; font-family: var(--font); font-size: 13px; color: var(--black); width: 100%; }
   .search-box input::placeholder { color: var(--gray-400); }
-
-  .filter-row {
-    display: flex;
-    gap: 6px;
-    overflow-x: auto;
-    padding-bottom: 2px;
-    scrollbar-width: none;
-  }
-
-  .filter-row::-webkit-scrollbar { display: none; }
-
-  .filter-pill {
-    flex-shrink: 0;
-    font-size: 11px;
-    font-weight: 500;
-    padding: 4px 10px;
-    border-radius: 20px;
-    border: 1.5px solid var(--gray-200);
-    cursor: pointer;
-    color: var(--gray-500);
-    background: var(--white);
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-
-  .filter-pill:hover { border-color: var(--gray-300); color: var(--gray-700); }
-  .filter-pill.active { border-color: var(--black); color: var(--black); background: var(--black); color: var(--white); }
+  .filter-row { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  .filter-pill { flex-shrink: 0; font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px; border: 1.5px solid var(--gray-200); cursor: pointer; color: var(--gray-500); background: var(--white); transition: all 0.15s; }
+  .filter-pill.active { border-color: var(--black); background: var(--black); color: var(--white); }
   .filter-pill.active-fb { border-color: var(--fb); background: var(--fb-bg); color: var(--fb); }
   .filter-pill.active-ig { border-color: var(--ig); background: var(--ig-bg); color: var(--ig); }
   .filter-pill.active-li { border-color: var(--li); background: var(--li-bg); color: var(--li); }
   .filter-pill.active-wa { border-color: var(--wa); background: var(--wa-bg); color: var(--wa); }
 
-  /* Conversation list */
-  .conv-list {
-    flex: 1;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--gray-200) transparent;
-  }
-
-  .conv-list::-webkit-scrollbar { width: 4px; }
-  .conv-list::-webkit-scrollbar-track { background: transparent; }
-  .conv-list::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 2px; }
-
-  .conv-item {
-    padding: 12px 16px;
-    cursor: pointer;
-    border-bottom: 1px solid var(--gray-100);
-    transition: background 0.1s;
-    position: relative;
-  }
-
+  .conv-list { flex: 1; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--gray-200) transparent; }
+  .conv-item { padding: 12px 16px; cursor: pointer; border-bottom: 1px solid var(--gray-100); transition: background 0.1s; position: relative; }
   .conv-item:hover { background: var(--gray-50); }
-
   .conv-item.active { background: var(--red-light); }
-
-  .conv-item.active::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: var(--red);
-    border-radius: 0 2px 2px 0;
-  }
-
+  .conv-item.active::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--red); border-radius: 0 2px 2px 0; }
   .conv-item.unread .conv-name { font-weight: 600; }
-
-  .conv-row1 {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 3px;
-  }
-
-  .conv-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 600;
-    flex-shrink: 0;
-    position: relative;
-  }
-
-  .conv-avatar-plat {
-    position: absolute;
-    bottom: -2px;
-    right: -2px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: 1.5px solid var(--white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
+  .conv-row1 { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+  .conv-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; position: relative; }
+  .conv-avatar-plat { position: absolute; bottom: -2px; right: -2px; width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--white); display: flex; align-items: center; justify-content: center; }
   .conv-meta { flex: 1; min-width: 0; }
   .conv-name { font-size: 13px; color: var(--black); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .conv-time { font-size: 11px; color: var(--gray-400); font-family: var(--mono); flex-shrink: 0; }
   .conv-preview { font-size: 12px; color: var(--gray-500); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-left: 40px; }
+  .unread-badge { background: var(--red); color: var(--white); font-size: 10px; font-family: var(--mono); border-radius: 10px; padding: 1px 6px; font-weight: 500; flex-shrink: 0; }
 
-  .conv-badges { display: flex; align-items: center; gap: 4px; }
+  /* Chat */
+  .chat-panel { flex: 1; background: var(--white); display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+  .chat-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--gray-400); }
+  .chat-empty-icon { width: 56px; height: 56px; border-radius: 50%; background: var(--gray-100); display: flex; align-items: center; justify-content: center; }
+  .chat-header { padding: 14px 20px; border-bottom: 1px solid var(--gray-100); display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .chat-header-avatar { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; flex-shrink: 0; }
+  .chat-header-name { font-size: 14px; font-weight: 600; letter-spacing: -0.2px; }
+  .chat-header-meta { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--gray-500); margin-top: 1px; }
+  .plat-dot-sm { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .chat-header-actions { display: flex; gap: 6px; margin-left: auto; }
+  .icon-btn { width: 32px; height: 32px; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); background: var(--white); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s; color: var(--gray-500); }
+  .icon-btn:hover { background: var(--gray-50); color: var(--black); }
 
-  .unread-badge {
-    background: var(--red);
-    color: var(--white);
-    font-size: 10px;
-    font-family: var(--mono);
-    border-radius: 10px;
-    padding: 1px 6px;
-    font-weight: 500;
-    flex-shrink: 0;
-  }
-
-  .plat-badge {
-    width: 14px;
-    height: 14px;
-    border-radius: 3px;
-    flex-shrink: 0;
-  }
-
-  /* Chat panel */
-  .chat-panel {
-    flex: 1;
-    background: var(--white);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    min-width: 0;
-  }
-
-  .chat-empty {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    color: var(--gray-400);
-  }
-
-  .chat-empty-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: var(--gray-100);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .chat-empty p { font-size: 13px; }
-
-  .chat-header {
-    padding: 14px 20px;
-    border-bottom: 1px solid var(--gray-100);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-shrink: 0;
-    background: var(--white);
-  }
-
-  .chat-header-avatar {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: 600;
-    flex-shrink: 0;
-    position: relative;
-  }
-
-  .chat-header-avatar .plat-indicator {
-    position: absolute;
-    bottom: -2px;
-    right: -2px;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    border: 2px solid var(--white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .chat-header-info { flex: 1; }
-  .chat-header-name { font-size: 14px; font-weight: 600; color: var(--black); letter-spacing: -0.2px; }
-
-  .chat-header-meta {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: var(--gray-500);
-    margin-top: 1px;
-  }
-
-  .plat-dot-sm {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-  }
-
-  .chat-header-actions { display: flex; gap: 6px; }
-
-  .icon-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--gray-200);
-    background: var(--white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.15s;
-    color: var(--gray-500);
-  }
-
-  .icon-btn:hover { background: var(--gray-50); border-color: var(--gray-300); color: var(--black); }
-
-  /* Messages */
-  .messages-wrap {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--gray-200) transparent;
-    background: var(--gray-50);
-  }
-
-  .messages-wrap::-webkit-scrollbar { width: 4px; }
-  .messages-wrap::-webkit-scrollbar-track { background: transparent; }
-  .messages-wrap::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 2px; }
-
-  .date-divider {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 11px;
-    color: var(--gray-400);
-    font-family: var(--mono);
-    margin: 6px 0;
-  }
-
-  .date-divider::before, .date-divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--gray-200);
-  }
-
-  .msg-group {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    max-width: 68%;
-  }
-
+  .messages-wrap { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; scrollbar-width: thin; background: var(--gray-50); }
+  .date-divider { display: flex; align-items: center; gap: 12px; font-size: 11px; color: var(--gray-400); font-family: var(--mono); margin: 6px 0; }
+  .date-divider::before, .date-divider::after { content: ''; flex: 1; height: 1px; background: var(--gray-200); }
+  .msg-group { display: flex; flex-direction: column; gap: 4px; max-width: 68%; }
   .msg-group.incoming { align-self: flex-start; }
   .msg-group.outgoing { align-self: flex-end; }
+  .msg-bubble { padding: 9px 13px; border-radius: 12px; font-size: 13px; line-height: 1.55; word-break: break-word; }
+  .msg-group.incoming .msg-bubble { background: var(--white); color: var(--black); border: 1px solid var(--gray-200); border-bottom-left-radius: 3px; box-shadow: var(--shadow); }
+  .msg-group.outgoing .msg-bubble { background: var(--red); color: var(--white); border-bottom-right-radius: 3px; }
+  .msg-time { font-size: 10px; color: var(--gray-400); font-family: var(--mono); padding: 0 2px; }
+  .msg-group.outgoing .msg-time { text-align: right; }
 
-  .msg-sender {
-    font-size: 11px;
-    color: var(--gray-400);
-    margin-bottom: 2px;
-    padding-left: 2px;
-  }
-
-  .msg-group.outgoing .msg-sender { text-align: right; padding-right: 2px; }
-
-  .msg-bubble {
-    padding: 9px 13px;
-    border-radius: 12px;
-    font-size: 13px;
-    line-height: 1.55;
-    word-break: break-word;
-  }
-
-  .msg-group.incoming .msg-bubble {
-    background: var(--white);
-    color: var(--black);
-    border: 1px solid var(--gray-200);
-    border-bottom-left-radius: 3px;
-    box-shadow: var(--shadow);
-  }
-
-  .msg-group.outgoing .msg-bubble {
-    background: var(--red);
-    color: var(--white);
-    border-bottom-right-radius: 3px;
-  }
-
-  .msg-time {
-    font-size: 10px;
-    color: var(--gray-400);
-    font-family: var(--mono);
-    padding: 0 2px;
-  }
-
-  .msg-group.outgoing .msg-time { text-align: right; padding-right: 2px; }
-
-  /* Composer */
-  .composer {
-    padding: 12px 20px;
-    border-top: 1px solid var(--gray-100);
-    background: var(--white);
-    flex-shrink: 0;
-  }
-
-  .composer-inner {
-    display: flex;
-    align-items: flex-end;
-    gap: 10px;
-    background: var(--gray-50);
-    border: 1.5px solid var(--gray-200);
-    border-radius: var(--radius);
-    padding: 10px 14px;
-    transition: border-color 0.15s;
-  }
-
-  .composer-inner:focus-within {
-    border-color: var(--gray-400);
-    background: var(--white);
-  }
-
-  .composer-inner textarea {
-    flex: 1;
-    border: none;
-    background: none;
-    outline: none;
-    font-family: var(--font);
-    font-size: 13px;
-    color: var(--black);
-    resize: none;
-    min-height: 20px;
-    max-height: 120px;
-    line-height: 1.5;
-  }
-
+  .composer { padding: 12px 20px; border-top: 1px solid var(--gray-100); background: var(--white); flex-shrink: 0; }
+  .composer-inner { display: flex; align-items: flex-end; gap: 10px; background: var(--gray-50); border: 1.5px solid var(--gray-200); border-radius: var(--radius); padding: 10px 14px; transition: border-color 0.15s; }
+  .composer-inner:focus-within { border-color: var(--gray-400); background: var(--white); }
+  .composer-inner textarea { flex: 1; border: none; background: none; outline: none; font-family: var(--font); font-size: 13px; color: var(--black); resize: none; min-height: 20px; max-height: 120px; line-height: 1.5; }
   .composer-inner textarea::placeholder { color: var(--gray-400); }
-
-  .composer-actions {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
-  }
-
-  .send-btn {
-    padding: 7px 16px;
-    background: var(--red);
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius-sm);
-    font-family: var(--font);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-
+  .send-btn { padding: 7px 16px; background: var(--red); color: var(--white); border: none; border-radius: var(--radius-sm); font-family: var(--font); font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.15s; display: flex; align-items: center; gap: 5px; }
   .send-btn:hover { background: var(--red-dark); }
-
-  .composer-meta {
-    font-size: 11px;
-    color: var(--gray-400);
-    margin-top: 7px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-
+  .send-btn:disabled { background: var(--gray-300); cursor: not-allowed; }
+  .composer-meta { font-size: 11px; color: var(--gray-400); margin-top: 7px; display: flex; align-items: center; gap: 5px; }
   .plat-dot-xs { width: 6px; height: 6px; border-radius: 50%; }
 
   /* Right panel */
-  .right-panel {
-    width: 240px;
-    min-width: 240px;
-    background: var(--white);
-    border-left: 1px solid var(--gray-100);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .rp-header {
-    padding: 16px;
-    border-bottom: 1px solid var(--gray-100);
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--gray-500);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-
-  .rp-section { padding: 16px; border-bottom: 1px solid var(--gray-100); }
-
-  .rp-label { font-size: 11px; color: var(--gray-400); margin-bottom: 4px; }
+  .right-panel { width: 240px; min-width: 240px; background: var(--white); border-left: 1px solid var(--gray-100); display: flex; flex-direction: column; overflow-y: auto; }
+  .rp-header { padding: 16px; border-bottom: 1px solid var(--gray-100); font-size: 11px; font-weight: 600; color: var(--gray-500); letter-spacing: 0.5px; text-transform: uppercase; }
+  .rp-section { padding: 14px 16px; border-bottom: 1px solid var(--gray-100); }
+  .rp-label { font-size: 11px; color: var(--gray-400); margin-bottom: 3px; }
   .rp-value { font-size: 13px; color: var(--black); font-weight: 500; }
-
-  .rp-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11px;
-    padding: 3px 8px;
-    border-radius: 20px;
-    font-weight: 500;
-    margin-top: 6px;
-  }
-
-  .tag-new { background: #fef9ee; color: #b45309; border: 1px solid #fde68a; }
-  .tag-follow { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
-  .tag-hot { background: #fff0f2; color: var(--red); border: 1px solid #fecdd3; }
-
-  .quick-replies { padding: 16px; }
   .qr-label { font-size: 11px; color: var(--gray-400); margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
-
-  .qr-btn {
-    display: block;
-    width: 100%;
-    text-align: left;
-    padding: 7px 10px;
-    background: var(--gray-50);
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius-sm);
-    font-family: var(--font);
-    font-size: 12px;
-    color: var(--gray-700);
-    cursor: pointer;
-    margin-bottom: 6px;
-    transition: all 0.15s;
-    line-height: 1.4;
-  }
-
+  .qr-btn { display: block; width: 100%; text-align: left; padding: 7px 10px; background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); font-family: var(--font); font-size: 12px; color: var(--gray-700); cursor: pointer; margin-bottom: 6px; transition: all 0.15s; line-height: 1.4; }
   .qr-btn:hover { background: var(--white); border-color: var(--gray-300); color: var(--black); }
 
-  /* Modals / overlays */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-  }
+  /* Loading */
+  .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-state { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 32px; font-size: 13px; color: var(--gray-400); }
 
+  /* Modal */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; }
   .modal-overlay.show { display: flex; }
-
-  .modal-box {
-    background: var(--white);
-    border-radius: var(--radius-lg);
-    padding: 32px;
-    width: 100%;
-    max-width: 420px;
-    box-shadow: var(--shadow-lg);
-    animation: fadeUp 0.2s ease;
-  }
-
+  .modal-box { background: var(--white); border-radius: var(--radius-lg); padding: 32px; width: 100%; max-width: 440px; box-shadow: var(--shadow-lg); animation: fadeUp 0.2s ease; }
   .modal-title { font-size: 17px; font-weight: 600; letter-spacing: -0.3px; margin-bottom: 6px; }
-  .modal-sub { font-size: 13px; color: var(--gray-500); margin-bottom: 24px; line-height: 1.6; }
-
-  .modal-close-btn {
-    width: 100%;
-    padding: 11px;
-    background: var(--black);
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius);
-    font-family: var(--font);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    margin-top: 16px;
-    transition: background 0.15s;
-  }
-
-  .modal-close-btn:hover { background: var(--gray-700); }
-
-  .oauth-steps {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-
-  .oauth-step {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 10px;
-    background: var(--gray-50);
-    border-radius: var(--radius-sm);
-  }
-
-  .step-num {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: var(--black);
-    color: var(--white);
-    font-size: 11px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
+  .modal-sub { font-size: 13px; color: var(--gray-500); margin-bottom: 20px; line-height: 1.6; }
+  .oauth-steps { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+  .oauth-step { display: flex; align-items: flex-start; gap: 12px; padding: 10px; background: var(--gray-50); border-radius: var(--radius-sm); }
+  .step-num { width: 22px; height: 22px; border-radius: 50%; background: var(--black); color: var(--white); font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
   .step-text { font-size: 12px; color: var(--gray-600); line-height: 1.5; }
+  .step-code { display: block; font-family: var(--mono); font-size: 11px; background: var(--gray-200); padding: 2px 6px; border-radius: 4px; margin-top: 4px; word-break: break-all; }
+  .modal-btn { width: 100%; padding: 12px; border: none; border-radius: var(--radius); font-family: var(--font); font-size: 13px; font-weight: 500; cursor: pointer; margin-top: 6px; transition: all 0.15s; }
+  .modal-btn.primary { background: var(--red); color: var(--white); }
+  .modal-btn.primary:hover { background: var(--red-dark); }
+  .modal-btn.secondary { background: var(--gray-100); color: var(--gray-700); }
+  .modal-btn.secondary:hover { background: var(--gray-200); }
 
-  /* Toasts */
-  .toast-wrap {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    z-index: 200;
-  }
+  /* Connections view */
+  .connections-wrap { flex: 1; padding: 40px; overflow-y: auto; }
+  .connections-inner { max-width: 560px; margin: 0 auto; }
+  .conn-heading { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; margin-bottom: 6px; }
+  .conn-sub { font-size: 13px; color: var(--gray-500); margin-bottom: 28px; }
+  .conn-card { display: flex; align-items: center; gap: 14px; padding: 16px; border: 1.5px solid var(--gray-200); border-radius: var(--radius); margin-bottom: 10px; background: var(--white); }
+  .conn-card.connected { border-color: #22c55e; background: #f0fdf4; }
+  .conn-status { font-size: 12px; }
+  .conn-status.ok { color: #16a34a; }
+  .conn-status.no { color: var(--gray-400); }
+  .help-box { margin-top: 28px; padding: 20px; background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius); font-size: 13px; }
+  .help-box strong { display: block; margin-bottom: 6px; }
+  .help-box p { color: var(--gray-500); font-size: 12px; line-height: 1.6; }
+  .help-box .contact { margin-top: 10px; font-size: 12px; }
 
-  .toast {
-    background: var(--black);
-    color: var(--white);
-    padding: 10px 16px;
-    border-radius: var(--radius);
-    font-size: 13px;
-    box-shadow: var(--shadow-md);
-    animation: toastIn 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    max-width: 300px;
-  }
-
+  /* Toast */
+  .toast-wrap { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 8px; z-index: 200; }
+  .toast { background: var(--black); color: var(--white); padding: 10px 16px; border-radius: var(--radius); font-size: 13px; box-shadow: var(--shadow-lg); animation: toastIn 0.2s ease; display: flex; align-items: center; gap: 8px; max-width: 300px; }
   .toast-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 
-  /* Animations */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes toastIn {
-    from { opacity: 0; transform: translateX(20px); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0.5; }
-  }
-
-  /* Responsive */
-  @media (max-width: 900px) {
-    .right-panel { display: none; }
-    :root { --sidebar-w: 240px; }
-  }
-
-  @media (max-width: 640px) {
-    .sidebar { display: none; }
-    .chat-panel { display: flex !important; }
-  }
-
-  /* Scrollbar global */
-  * { scrollbar-width: thin; scrollbar-color: var(--gray-200) transparent; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes toastIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+  @media (max-width: 900px) { .right-panel { display: none; } }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════ ONBOARDING ══════════════════ -->
+<!-- ══ ONBOARDING ══ -->
 <div id="onboarding">
   <div class="ob-logo">
     <div class="ob-logo-mark"><span>909</span>IT</div>
     <div class="ob-logo-tag">SocialDesk</div>
   </div>
-
   <div class="ob-card">
     <div class="ob-heading">Connect your platforms</div>
-    <div class="ob-sub">Link your social accounts once. All customer messages from Facebook, Instagram, LinkedIn and WhatsApp will appear in one unified inbox.</div>
+    <div class="ob-sub">Enter your n8n backend URL, then connect each social platform. All customer messages will arrive in one unified inbox.</div>
 
-    <!-- Facebook -->
-    <div class="platform-row" id="row-facebook" onclick="connectPlatform('facebook')">
-      <div class="plat-icon" style="background:#eef3fd;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-      </div>
-      <div class="plat-info">
-        <div class="plat-name">Facebook</div>
-        <div class="plat-desc">Facebook Page Messenger</div>
-      </div>
-      <button class="plat-action" id="btn-facebook">Connect</button>
+    <div class="config-section">
+      <div class="config-label">Your n8n backend URL</div>
+      <input class="config-input" id="n8n-url-input" type="text" placeholder="https://n8n.909it.com.au" value="">
+      <div class="config-hint">This is the public URL of your n8n instance. Messages and replies route through this URL. Set this up before connecting platforms.</div>
+      <input class="config-input" id="api-key-input" type="password" placeholder="API key (set in n8n env as SOCIALDESK_API_KEY)" style="margin-top:8px;">
     </div>
 
-    <!-- Instagram -->
-    <div class="platform-row" id="row-instagram" onclick="connectPlatform('instagram')">
-      <div class="plat-icon" style="background:#fceef8;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#C13584"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-      </div>
-      <div class="plat-info">
-        <div class="plat-name">Instagram</div>
-        <div class="plat-desc">Instagram Direct Messages</div>
-      </div>
-      <button class="plat-action" id="btn-instagram">Connect</button>
+    <div class="platform-row" id="row-facebook">
+      <div class="plat-icon" style="background:#eef3fd;"><svg width="22" height="22" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div>
+      <div class="plat-info"><div class="plat-name">Facebook</div><div class="plat-desc">Facebook Page Messenger</div></div>
+      <button class="plat-action" id="btn-facebook" onclick="showConnectModal('facebook')">Connect</button>
+    </div>
+    <div class="platform-row" id="row-instagram">
+      <div class="plat-icon" style="background:#fceef8;"><svg width="22" height="22" viewBox="0 0 24 24" fill="#C13584"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+      <div class="plat-info"><div class="plat-name">Instagram</div><div class="plat-desc">Instagram Direct Messages</div></div>
+      <button class="plat-action" id="btn-instagram" onclick="showConnectModal('instagram')">Connect</button>
+    </div>
+    <div class="platform-row" id="row-whatsapp">
+      <div class="plat-icon" style="background:#eefbf3;"><svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>
+      <div class="plat-info"><div class="plat-name">WhatsApp Business</div><div class="plat-desc">WhatsApp Business API</div></div>
+      <button class="plat-action" id="btn-whatsapp" onclick="showConnectModal('whatsapp')">Connect</button>
+    </div>
+    <div class="platform-row" id="row-linkedin">
+      <div class="plat-icon" style="background:#eef4fd;"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div>
+      <div class="plat-info"><div class="plat-name">LinkedIn</div><div class="plat-desc">LinkedIn Company Page Messages</div></div>
+      <button class="plat-action" id="btn-linkedin" onclick="showConnectModal('linkedin')">Connect</button>
     </div>
 
-    <!-- LinkedIn -->
-    <div class="platform-row" id="row-linkedin" onclick="connectPlatform('linkedin')">
-      <div class="plat-icon" style="background:#eef4fd;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      </div>
-      <div class="plat-info">
-        <div class="plat-name">LinkedIn</div>
-        <div class="plat-desc">LinkedIn Messaging (Company Page)</div>
-      </div>
-      <button class="plat-action" id="btn-linkedin">Connect</button>
-    </div>
-
-    <!-- WhatsApp -->
-    <div class="platform-row" id="row-whatsapp" onclick="connectPlatform('whatsapp')">
-      <div class="plat-icon" style="background:#eefbf3;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      </div>
-      <div class="plat-info">
-        <div class="plat-name">WhatsApp Business</div>
-        <div class="plat-desc">WhatsApp Business API</div>
-      </div>
-      <button class="plat-action" id="btn-whatsapp">Connect</button>
-    </div>
-
-    <button class="ob-cta" id="ob-cta" onclick="launchApp()" disabled>Connect at least one platform to continue</button>
-    <div class="ob-skip" onclick="launchApp()">Skip for now — I'll set this up later</div>
+    <button class="ob-cta" id="ob-cta" onclick="saveAndLaunch()">Save & open inbox</button>
+    <div class="ob-skip" onclick="launchApp()">Skip — use demo data for now</div>
   </div>
 </div>
 
-<!-- ══════════════════ MAIN APP ══════════════════ -->
+<!-- ══ APP ══ -->
 <div id="app">
+  <div id="config-banner" style="display:none;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span><strong>Demo mode:</strong> No n8n URL configured. Messages shown are sample data. <a onclick="goToOnboarding()">Configure backend</a></span>
+  </div>
   <div class="topbar">
-    <div class="topbar-logo">
-      <span class="topbar-logo-red">909</span>IT
-    </div>
+    <div class="topbar-logo"><span class="topbar-logo-red">909</span>IT</div>
     <div class="topbar-divider"></div>
     <div class="topbar-product">SocialDesk</div>
-
     <div class="topbar-spacer"></div>
-
-    <div class="topbar-stats">
-      <div class="stat-chip">
-        <div class="stat-dot red"></div>
-        <span id="stat-unread">4 unread</span>
-      </div>
-      <div class="stat-chip">
-        <div class="stat-dot"></div>
-        <span id="stat-convs">5 conversations</span>
-      </div>
-    </div>
-
+    <div class="stat-chip"><div class="stat-dot red"></div><span id="stat-unread">0 unread</span></div>
+    <div class="stat-chip"><div class="stat-dot"></div><span id="stat-convs">0 conversations</span></div>
     <div class="topbar-actions">
       <button class="topbar-btn active" id="nav-inbox" onclick="setView('inbox')">Inbox</button>
       <button class="topbar-btn" id="nav-connections" onclick="setView('connections')">Connections</button>
-      <button class="topbar-btn" onclick="window.location.reload()">Sign out</button>
+      <button class="topbar-btn" onclick="goToOnboarding()">Settings</button>
     </div>
   </div>
 
   <div class="layout" id="layout-inbox">
-    <!-- Sidebar -->
     <div class="sidebar">
       <div class="sidebar-header">
-        <div class="sidebar-title">
-          All messages
-          <span class="unread-total" id="badge-total">4</span>
-        </div>
+        <div class="sidebar-title">All messages <span class="unread-total" id="badge-total">0</span></div>
         <div class="search-box">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#a8a8a3; flex-shrink:0;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a8a8a3" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input type="text" placeholder="Search conversations..." id="search-input" oninput="doSearch()">
         </div>
         <div class="filter-row">
-          <div class="filter-pill active" id="fp-all" onclick="filterBy('all', this)">All</div>
-          <div class="filter-pill" id="fp-facebook" onclick="filterBy('facebook', this)">Facebook</div>
-          <div class="filter-pill" id="fp-instagram" onclick="filterBy('instagram', this)">Instagram</div>
-          <div class="filter-pill" id="fp-linkedin" onclick="filterBy('linkedin', this)">LinkedIn</div>
-          <div class="filter-pill" id="fp-whatsapp" onclick="filterBy('whatsapp', this)">WhatsApp</div>
+          <div class="filter-pill active" onclick="filterBy('all',this)">All</div>
+          <div class="filter-pill" onclick="filterBy('facebook',this)">Facebook</div>
+          <div class="filter-pill" onclick="filterBy('instagram',this)">Instagram</div>
+          <div class="filter-pill" onclick="filterBy('linkedin',this)">LinkedIn</div>
+          <div class="filter-pill" onclick="filterBy('whatsapp',this)">WhatsApp</div>
         </div>
       </div>
-      <div class="conv-list" id="conv-list"></div>
+      <div class="conv-list" id="conv-list"><div class="loading-state"><div class="loading-spinner" style="border-color:rgba(0,0,0,0.15);border-top-color:#0d0d0d;"></div> Loading...</div></div>
     </div>
 
-    <!-- Chat panel -->
-    <div class="chat-panel" id="chat-panel">
+    <div class="chat-panel">
       <div class="chat-empty" id="chat-empty">
-        <div class="chat-empty-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a8a8a3" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </div>
+        <div class="chat-empty-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a8a8a3" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
         <p>Select a conversation to reply</p>
       </div>
-
-      <div id="chat-open" style="display:none; flex-direction:column; flex:1; overflow:hidden;">
+      <div id="chat-open" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
         <div class="chat-header">
-          <div class="chat-header-avatar" id="ch-avatar">
-            <div class="plat-indicator" id="ch-plat-indicator"></div>
-          </div>
-          <div class="chat-header-info">
+          <div class="chat-header-avatar" id="ch-avatar"></div>
+          <div>
             <div class="chat-header-name" id="ch-name"></div>
-            <div class="chat-header-meta">
-              <div class="plat-dot-sm" id="ch-dot"></div>
-              <span id="ch-platform-label"></span>
-              <span style="color:#d0d0cc;">·</span>
-              <span id="ch-time-label" style="font-family:'DM Mono',monospace; font-size:11px;"></span>
-            </div>
+            <div class="chat-header-meta"><div class="plat-dot-sm" id="ch-dot"></div><span id="ch-platform-label"></span></div>
           </div>
           <div class="chat-header-actions">
-            <div class="icon-btn" title="Mark resolved">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <div class="icon-btn" title="Customer info">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-            </div>
+            <div class="icon-btn" title="Mark resolved" onclick="markResolved()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
           </div>
         </div>
-
         <div class="messages-wrap" id="messages-wrap"></div>
-
         <div class="composer">
           <div class="composer-inner">
             <textarea id="composer-ta" placeholder="Type a reply..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
-            <div class="composer-actions">
-              <button class="send-btn" onclick="sendMessage()">
-                Send
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-              </button>
-            </div>
+            <div><button class="send-btn" id="send-btn" onclick="sendMessage()">Send <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
           </div>
-          <div class="composer-meta">
-            <div class="plat-dot-xs" id="comp-dot"></div>
-            Replying via <span id="comp-platform" style="font-weight:500;"></span>
-            <span style="margin-left:auto; color:#d0d0cc;">Enter to send</span>
-          </div>
+          <div class="composer-meta"><div class="plat-dot-xs" id="comp-dot"></div>Replying via <span id="comp-platform" style="font-weight:500;"></span><span style="margin-left:auto;color:#d0d0cc;">Enter to send</span></div>
         </div>
       </div>
     </div>
 
-    <!-- Right info panel -->
     <div class="right-panel" id="right-panel" style="display:none;">
-      <div class="rp-header">Customer Info</div>
+      <div class="rp-header">Customer</div>
       <div class="rp-section">
-        <div class="rp-label">Name</div>
-        <div class="rp-value" id="rp-name">—</div>
-        <div class="rp-label" style="margin-top:10px;">Platform</div>
-        <div class="rp-value" id="rp-platform">—</div>
-        <div class="rp-label" style="margin-top:10px;">First contact</div>
-        <div class="rp-value" id="rp-date">—</div>
-        <div id="rp-tags"></div>
+        <div class="rp-label">Name</div><div class="rp-value" id="rp-name">—</div>
+        <div class="rp-label" style="margin-top:10px;">Platform</div><div class="rp-value" id="rp-platform">—</div>
+        <div class="rp-label" style="margin-top:10px;">Sender ID</div><div class="rp-value" id="rp-senderid" style="font-family:'DM Mono',monospace;font-size:11px;word-break:break-all;">—</div>
       </div>
-      <div class="quick-replies" id="qr-section" style="display:none;">
+      <div style="padding:14px 16px;">
         <div class="qr-label">Quick replies</div>
-        <button class="qr-btn" onclick="insertQuickReply(this)">Hi! Thanks for reaching out to 909IT. How can I help you today?</button>
-        <button class="qr-btn" onclick="insertQuickReply(this)">Happy to help. Can I grab your email address to send through some info?</button>
-        <button class="qr-btn" onclick="insertQuickReply(this)">We offer a free IT health check — would you like to book one in?</button>
-        <button class="qr-btn" onclick="insertQuickReply(this)">Our team will follow up with you shortly. Is there a good time to call?</button>
+        <button class="qr-btn" onclick="insertQR(this)">Hi! Thanks for reaching out to 909IT. How can I help you today?</button>
+        <button class="qr-btn" onclick="insertQR(this)">Happy to help. Can I grab your email address to send through some info?</button>
+        <button class="qr-btn" onclick="insertQR(this)">We offer a free IT health check — would you like to book one in?</button>
+        <button class="qr-btn" onclick="insertQR(this)">Our team will follow up shortly. Is there a good time to call?</button>
       </div>
     </div>
   </div>
 
-  <!-- Connections view -->
   <div class="layout" id="layout-connections" style="display:none;">
-    <div style="flex:1; padding:40px; overflow-y:auto;">
-      <div style="max-width:560px; margin:0 auto;">
-        <div style="font-size:18px; font-weight:600; letter-spacing:-0.3px; margin-bottom:6px;">Platform connections</div>
-        <div style="font-size:13px; color:#737370; margin-bottom:28px;">Manage which social platforms are connected to your SocialDesk inbox.</div>
+    <div class="connections-wrap">
+      <div class="connections-inner">
+        <div class="conn-heading">Platform connections</div>
+        <div class="conn-sub">Manage which social platforms are connected.</div>
         <div id="connections-list"></div>
-        <div style="margin-top:32px; padding:20px; background:#f9f9f8; border:1px solid #e5e5e2; border-radius:10px;">
-          <div style="font-size:13px; font-weight:600; margin-bottom:6px;">Need help connecting?</div>
-          <div style="font-size:12px; color:#737370; line-height:1.6;">Each platform requires app registration and API approval. Contact 909IT for assisted setup of your social API credentials.</div>
-          <div style="margin-top:12px; font-size:12px;">
-            <span style="color:#0d0d0d; font-weight:500;">📞</span> 02 9145 7230 &nbsp;·&nbsp;
-            <span style="color:#0d0d0d; font-weight:500;">✉️</span> hello@909it.com.au
-          </div>
+        <div class="help-box">
+          <strong>Need help?</strong>
+          <p>Each platform requires a registered developer app and approved webhook URL pointing to your n8n instance at <span id="help-n8n-url" style="font-family:'DM Mono',monospace;font-size:11px;">https://n8n.909it.com.au</span>.</p>
+          <div class="contact">📞 02 9145 7230 &nbsp;·&nbsp; ✉️ hello@909it.com.au</div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Connection modal -->
+<!-- Connect modal -->
 <div class="modal-overlay" id="modal-connect">
   <div class="modal-box">
-    <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
       <div id="modal-icon" style="width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;"></div>
-      <div>
-        <div class="modal-title" id="modal-title">Connect Facebook</div>
-        <div style="font-size:12px; color:#737370;" id="modal-handle"></div>
-      </div>
+      <div><div class="modal-title" id="modal-title"></div><div style="font-size:12px;color:#737370;" id="modal-handle"></div></div>
     </div>
     <div class="modal-sub" id="modal-sub"></div>
     <div class="oauth-steps" id="modal-steps"></div>
-    <button class="modal-close-btn" id="modal-primary-btn"></button>
-    <div style="text-align:center; margin-top:10px;">
-      <span style="font-size:12px; color:#a8a8a3; cursor:pointer;" onclick="closeModal()">Cancel</span>
-    </div>
+    <button class="modal-btn primary" id="modal-primary-btn"></button>
+    <button class="modal-btn secondary" onclick="closeModal()" style="margin-top:6px;">Cancel</button>
   </div>
 </div>
 
-<!-- Toast container -->
 <div class="toast-wrap" id="toast-wrap"></div>
 
 <script>
-// ── DATA ──────────────────────────────────────────
+// ── CONFIG ──────────────────────────────────────────
+const STORAGE_KEY = 'socialdesk_config';
+let cfg = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+// cfg: { n8nUrl, apiKey, connected: {facebook, instagram, whatsapp, linkedin} }
+
 const PLATFORMS = {
-  facebook:  { label: 'Facebook Messenger', color: '#1877F2', bg: '#eef3fd', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>` },
-  instagram: { label: 'Instagram DM',       color: '#C13584', bg: '#fceef8', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="#C13584"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>` },
-  linkedin:  { label: 'LinkedIn Message',   color: '#0A66C2', bg: '#eef4fd', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>` },
-  whatsapp:  { label: 'WhatsApp Business',  color: '#25D366', bg: '#eefbf3', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>` }
+  facebook:  { label: 'Facebook Messenger', color: '#1877F2', bg: '#eef3fd' },
+  instagram: { label: 'Instagram DM',       color: '#C13584', bg: '#fceef8' },
+  linkedin:  { label: 'LinkedIn Message',   color: '#0A66C2', bg: '#eef4fd' },
+  whatsapp:  { label: 'WhatsApp Business',  color: '#25D366', bg: '#eefbf3' }
 };
 
 const MODAL_INFO = {
-  facebook:  { sub: 'Connecting Facebook lets you receive and reply to messages from your Facebook Business Page directly in SocialDesk.', steps: ['Log in to Facebook and grant page permissions', 'Select which Facebook Page to connect', 'Approve Messenger API access'] },
-  instagram: { sub: 'Connecting Instagram lets you manage all DMs from your Instagram Business account in one place.', steps: ['Log in with your Instagram Business account', 'Link to your connected Facebook Page', 'Enable Instagram Messaging API access'] },
-  linkedin:  { sub: 'Connecting LinkedIn lets you reply to messages and InMails from your LinkedIn Company Page.', steps: ['Sign in with your LinkedIn admin account', 'Select the Company Page to connect', 'Approve messaging permissions'] },
-  whatsapp:  { sub: 'Connecting WhatsApp Business lets you send and receive customer messages via the WhatsApp Business API.', steps: ['Enter your WhatsApp Business phone number', 'Verify your number via OTP code', 'Configure your business display name'] }
+  facebook:  {
+    sub: 'You need a Meta Developer App with Messenger API enabled. Your n8n webhook URL will be registered as the callback.',
+    steps: [
+      { text: 'Go to developers.facebook.com → My Apps → Create App → Business type', code: null },
+      { text: 'Add Messenger product. Under Webhooks, enter your n8n webhook URL:', code: null, urlSuffix: '/webhook/meta-webhook' },
+      { text: 'Set Verify Token to match the one in your n8n "Verify Token Check" node', code: 'REPLACE_WITH_YOUR_VERIFY_TOKEN' },
+      { text: 'Subscribe to messages and messaging_postbacks events', code: null },
+      { text: 'Generate a Page Access Token and save it in n8n Credentials → Facebook Page API', code: null }
+    ]
+  },
+  instagram: {
+    sub: 'Instagram DMs use the same Meta App as Facebook. Complete the Facebook setup first, then add Instagram.',
+    steps: [
+      { text: 'In your Meta App, add the Instagram product', code: null },
+      { text: 'Link your Instagram Business Account to your Facebook Page', code: null },
+      { text: 'Add instagram_manage_messages permission to your app', code: null },
+      { text: 'Subscribe to instagram_messages under Webhook → Instagram fields', code: null }
+    ]
+  },
+  whatsapp: {
+    sub: 'WhatsApp Business API is managed through Meta. You need a verified business and a dedicated phone number.',
+    steps: [
+      { text: 'In your Meta App, add WhatsApp product. You get a free test number to start.', code: null },
+      { text: 'Under Webhooks, use the same n8n URL as Facebook:', code: null, urlSuffix: '/webhook/meta-webhook' },
+      { text: 'Copy your Phone Number ID and Permanent Access Token into n8n Variables:', code: 'WA_PHONE_NUMBER_ID  and  WA_ACCESS_TOKEN' },
+      { text: 'Send a test message to your WhatsApp number. Check n8n executions to confirm receipt.', code: null }
+    ]
+  },
+  linkedin: {
+    sub: 'LinkedIn Messaging API requires LinkedIn Partner Program access (apply at linkedin.com/partners). This can take 2–4 weeks to be approved.',
+    steps: [
+      { text: 'Apply at linkedin.com/developers → Create App → Products → Marketing Developer Platform', code: null },
+      { text: 'Once approved, generate an OAuth 2.0 access token with r_messages and w_member_social scopes', code: null },
+      { text: 'Save token in n8n Variables:', code: 'LI_ACCESS_TOKEN' },
+      { text: 'Set up webhook at api.linkedin.com/v2/clientAwareMemberHandles for message events', code: null }
+    ]
+  }
 };
 
-let conversations = [
-  { id: 1, name: 'Sarah Mitchell',  initials: 'SM', platform: 'facebook',  time: '2m ago',  date: 'Today, 9:14 am',   unread: 2, tag: 'new',    msgs: [
-    { dir: 'in',  text: 'Hi there! I saw your Facebook post about managed IT services for small businesses.', time: '9:14 am' },
-    { dir: 'in',  text: 'We have about 8 staff and are spending too much time dealing with IT issues ourselves. Can you help?', time: '9:15 am' },
-    { dir: 'out', text: 'Hi Sarah! Absolutely, we specialise in exactly that. What sort of issues are you running into most often?', time: '9:18 am' },
-    { dir: 'in',  text: 'Mainly slow computers, email problems, and we had a ransomware scare last month which really worried us.', time: '9:20 am' },
+// ── DEMO DATA (used when no n8n URL set) ────────────
+const DEMO_CONVERSATIONS = [
+  { conversationId: 'facebook-111', platform: 'facebook', senderId: '111', senderName: 'Sarah Mitchell', lastMessage: 'Mainly slow computers, email issues and a ransomware scare.', lastTimestamp: new Date(Date.now()-2*60000).toISOString(), unreadCount: 2, messages: [
+    { id:'1', direction:'in',  text:'Hi! I saw your post about managed IT services for small businesses.', timestamp: new Date(Date.now()-20*60000).toISOString() },
+    { id:'2', direction:'in',  text:'We have 8 staff and spend too much time on IT issues. Can you help?', timestamp: new Date(Date.now()-18*60000).toISOString() },
+    { id:'3', direction:'out', text:'Hi Sarah! Absolutely, we specialise in that. What sort of issues are you running into?', timestamp: new Date(Date.now()-15*60000).toISOString() },
+    { id:'4', direction:'in',  text:'Mainly slow computers, email issues and a ransomware scare.', timestamp: new Date(Date.now()-2*60000).toISOString() },
   ]},
-  { id: 2, name: 'James Okafor',   initials: 'JO', platform: 'whatsapp',  time: '15m ago', date: 'Today, 9:03 am',   unread: 1, tag: 'hot',   msgs: [
-    { dir: 'in',  text: 'Hey, got your number from a colleague. Is the $99/user/month plan all inclusive?', time: '9:03 am' },
-    { dir: 'out', text: 'Hi James! Yes the Essentials plan at $99/user covers monitoring, helpdesk, security patching and antivirus. Happy to walk you through it.', time: '9:07 am' },
-    { dir: 'in',  text: 'Great. We also need backup for our files. Is that extra?', time: '9:22 am' },
+  { conversationId: 'whatsapp-0412345678', platform: 'whatsapp', senderId: '0412345678', senderName: 'James Okafor', lastMessage: 'Great. We also need backup for our files. Is that extra?', lastTimestamp: new Date(Date.now()-15*60000).toISOString(), unreadCount: 1, messages: [
+    { id:'5', direction:'in',  text:'Hey, got your number from a colleague. Is the $99/user/month plan all inclusive?', timestamp: new Date(Date.now()-60*60000).toISOString() },
+    { id:'6', direction:'out', text:'Hi James! Yes the Essentials plan covers monitoring, helpdesk, security patching and antivirus.', timestamp: new Date(Date.now()-55*60000).toISOString() },
+    { id:'7', direction:'in',  text:'Great. We also need backup for our files. Is that extra?', timestamp: new Date(Date.now()-15*60000).toISOString() },
   ]},
-  { id: 3, name: 'Priya Sharma',   initials: 'PS', platform: 'instagram', time: '1h ago',  date: 'Today, 8:30 am',   unread: 0, tag: 'follow', msgs: [
-    { dir: 'in',  text: 'Hi! Do you work with NDIS providers? We are a small disability support org and need IT help.', time: '8:30 am' },
-    { dir: 'out', text: 'Hi Priya! Yes, NDIS providers are one of our key client groups. We understand the compliance requirements well.', time: '8:45 am' },
-    { dir: 'in',  text: 'That is great to hear. We have 5 staff and need help with our devices and making sure we are secure.', time: '8:50 am' },
-    { dir: 'out', text: 'Perfect. I can put together a quote based on your setup. Can I grab your email to send through some info?', time: '8:55 am' },
-    { dir: 'in',  text: 'Sure, it is priya@brightpath.org.au', time: '9:00 am' },
+  { conversationId: 'instagram-222', platform: 'instagram', senderId: '222', senderName: 'Priya Sharma', lastMessage: 'Sure, it is priya@brightpath.org.au', lastTimestamp: new Date(Date.now()-60*60000).toISOString(), unreadCount: 0, messages: [
+    { id:'8', direction:'in',  text:'Hi! Do you work with NDIS providers? We are a small disability support org.', timestamp: new Date(Date.now()-90*60000).toISOString() },
+    { id:'9', direction:'out', text:'Hi Priya! Yes, NDIS is one of our key areas. We know the compliance requirements well.', timestamp: new Date(Date.now()-85*60000).toISOString() },
+    { id:'10', direction:'in', text:'That is great. We have 5 staff and need help with devices and security.', timestamp: new Date(Date.now()-80*60000).toISOString() },
+    { id:'11', direction:'out', text:'Can I grab your email to send through some info?', timestamp: new Date(Date.now()-75*60000).toISOString() },
+    { id:'12', direction:'in', text:'Sure, it is priya@brightpath.org.au', timestamp: new Date(Date.now()-60*60000).toISOString() },
   ]},
-  { id: 4, name: 'Tom Bellinger',  initials: 'TB', platform: 'linkedin',  time: '2h ago',  date: 'Today, 7:45 am',   unread: 1, tag: 'new',   msgs: [
-    { dir: 'in',  text: 'Hi Dand, I came across your post on Essential Eight compliance and was really impressed. We are a healthcare practice in Parramatta.', time: '7:45 am' },
-    { dir: 'out', text: 'Thanks Tom, really appreciate that! Healthcare is a big focus for us given the compliance requirements. What stage are you at with your Essential Eight maturity?', time: '8:00 am' },
-    { dir: 'in',  text: 'Honestly not sure. We have basic antivirus and that is about it. Our practice manager is worried we are not compliant.', time: '8:10 am' },
-    { dir: 'out', text: 'Happy to do a free Essential Eight gap assessment for you. It would give you a clear picture of where you stand and what needs to be done.', time: '8:20 am' },
-  ]},
-  { id: 5, name: 'Anita Nguyen',   initials: 'AN', platform: 'facebook',  time: '3h ago',  date: 'Today, 6:30 am',   unread: 0, tag: null,   msgs: [
-    { dir: 'in',  text: 'Hello, can you help us set up Microsoft 365 for our team? We are 4 people and currently using personal Gmail accounts for work.', time: '6:30 am' },
-    { dir: 'out', text: 'Hi Anita! Yes absolutely. M365 Business Basic at $9/user/month through us gets you Teams, Exchange email, SharePoint and OneDrive. Would you like me to walk you through the options?', time: '6:45 am' },
+  { conversationId: 'linkedin-tom', platform: 'linkedin', senderId: 'tom-bellinger', senderName: 'Tom Bellinger', lastMessage: 'Honestly not sure. We have basic antivirus and that is it.', lastTimestamp: new Date(Date.now()-2*3600000).toISOString(), unreadCount: 1, messages: [
+    { id:'13', direction:'in',  text:'Hi Dand, I saw your Essential Eight post. We are a healthcare practice in Parramatta.', timestamp: new Date(Date.now()-3*3600000).toISOString() },
+    { id:'14', direction:'out', text:'Thanks Tom! Healthcare compliance is a big focus for us. What stage are you at with Essential Eight?', timestamp: new Date(Date.now()-2.8*3600000).toISOString() },
+    { id:'15', direction:'in',  text:'Honestly not sure. We have basic antivirus and that is it.', timestamp: new Date(Date.now()-2*3600000).toISOString() },
   ]},
 ];
 
-let connectedPlatforms = new Set();
-let currentFilter = 'all';
+// ── STATE ──────────────────────────────────────────
+let conversations = [];
 let currentConv = null;
+let currentFilter = 'all';
 let searchQuery = '';
+let pollInterval = null;
+let isDemo = false;
 
-// ── ONBOARDING ────────────────────────────────────
-function connectPlatform(platform) {
-  const info = MODAL_INFO[platform];
-  const p = PLATFORMS[platform];
-
-  document.getElementById('modal-icon').style.background = p.bg;
-  document.getElementById('modal-icon').innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="${p.color}">${document.createElement('div').innerHTML = p.icon, p.icon.replace(/<svg[^>]*>/, '').replace('</svg>', '')}</svg>`;
-  document.getElementById('modal-title').textContent = `Connect ${platform.charAt(0).toUpperCase() + platform.slice(1)}`;
-  document.getElementById('modal-handle').textContent = p.label;
-  document.getElementById('modal-sub').textContent = info.sub;
-
-  const stepsHtml = info.steps.map((s, i) => `
-    <div class="oauth-step">
-      <div class="step-num">${i + 1}</div>
-      <div class="step-text">${s}</div>
-    </div>
-  `).join('');
-  document.getElementById('modal-steps').innerHTML = stepsHtml;
-
-  const btn = document.getElementById('modal-primary-btn');
-  if (connectedPlatforms.has(platform)) {
-    btn.textContent = 'Disconnect platform';
-    btn.style.background = '#4a4a47';
-    btn.onclick = () => { disconnectPlatform(platform); closeModal(); };
-  } else {
-    btn.textContent = `Authorise with ${platform.charAt(0).toUpperCase() + platform.slice(1)}`;
-    btn.style.background = '#e8001c';
-    btn.onclick = () => { simulateConnect(platform); closeModal(); };
+// ── ONBOARDING ──────────────────────────────────────
+window.addEventListener('load', () => {
+  if (cfg.n8nUrl) {
+    document.getElementById('n8n-url-input').value = cfg.n8nUrl;
+    document.getElementById('api-key-input').value = cfg.apiKey || '';
   }
-
-  document.getElementById('modal-connect').classList.add('show');
-}
-
-function simulateConnect(platform) {
-  const row = document.getElementById('row-' + platform);
-  const btn = document.getElementById('btn-' + platform);
-  if (row && btn) {
-    row.classList.add('connecting');
-    btn.textContent = 'Connecting...';
-    btn.className = 'plat-action loading-btn';
-    setTimeout(() => {
-      connectedPlatforms.add(platform);
-      row.classList.remove('connecting');
-      row.classList.add('connected');
-      btn.textContent = 'Connected';
-      btn.className = 'plat-action connected-btn';
-      updateObCta();
-      showToast(`${platform.charAt(0).toUpperCase() + platform.slice(1)} connected`, '#25D366');
-    }, 1800);
-  } else {
-    connectedPlatforms.add(platform);
-    renderConnectionsList();
-    showToast(`${platform.charAt(0).toUpperCase() + platform.slice(1)} connected`, '#25D366');
+  if (cfg.connected) {
+    Object.keys(cfg.connected).forEach(p => {
+      if (cfg.connected[p]) markRowConnected(p);
+    });
   }
-}
+});
 
-function disconnectPlatform(platform) {
-  connectedPlatforms.delete(platform);
-  const row = document.getElementById('row-' + platform);
-  const btn = document.getElementById('btn-' + platform);
-  if (row && btn) {
-    row.classList.remove('connected');
-    btn.textContent = 'Connect';
-    btn.className = 'plat-action';
-  }
-  renderConnectionsList();
-  showToast(`${platform.charAt(0).toUpperCase() + platform.slice(1)} disconnected`, '#e8001c');
-}
-
-function updateObCta() {
-  const cta = document.getElementById('ob-cta');
-  if (connectedPlatforms.size > 0) {
-    cta.disabled = false;
-    cta.textContent = `Open inbox (${connectedPlatforms.size} platform${connectedPlatforms.size > 1 ? 's' : ''} connected)`;
-  } else {
-    cta.disabled = true;
-    cta.textContent = 'Connect at least one platform to continue';
-  }
-}
-
-function closeModal() {
-  document.getElementById('modal-connect').classList.remove('show');
+function saveAndLaunch() {
+  const url = document.getElementById('n8n-url-input').value.trim().replace(/\/$/, '');
+  const key = document.getElementById('api-key-input').value.trim();
+  if (!url) { showToast('Please enter your n8n URL first', '#e8001c'); return; }
+  cfg.n8nUrl = url;
+  cfg.apiKey = key;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(cfg));
+  launchApp();
 }
 
 function launchApp() {
   document.getElementById('onboarding').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
-  renderConvList();
+  isDemo = !cfg.n8nUrl;
+  if (isDemo) {
+    document.getElementById('config-banner').style.display = 'flex';
+    conversations = DEMO_CONVERSATIONS;
+    renderConvList();
+    updateStats();
+  } else {
+    document.getElementById('config-banner').style.display = 'none';
+    fetchConversations();
+    pollInterval = setInterval(fetchConversations, 8000);
+  }
   renderConnectionsList();
-  updateStats();
+  if (cfg.n8nUrl) document.getElementById('help-n8n-url').textContent = cfg.n8nUrl;
 }
 
-// ── APP ───────────────────────────────────────────
-function setView(v) {
-  document.getElementById('layout-inbox').style.display = v === 'inbox' ? 'flex' : 'none';
-  document.getElementById('layout-connections').style.display = v === 'connections' ? 'flex' : 'none';
-  document.getElementById('nav-inbox').classList.toggle('active', v === 'inbox');
-  document.getElementById('nav-connections').classList.toggle('active', v === 'connections');
+function goToOnboarding() {
+  clearInterval(pollInterval);
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('onboarding').style.display = 'flex';
 }
 
-function filterBy(platform, el) {
-  currentFilter = platform;
-  document.querySelectorAll('.filter-pill').forEach(p => {
-    p.classList.remove('active', 'active-fb', 'active-ig', 'active-li', 'active-wa');
-  });
-  const map = { facebook: 'active-fb', instagram: 'active-ig', linkedin: 'active-li', whatsapp: 'active-wa' };
-  if (platform === 'all') el.classList.add('active');
-  else el.classList.add(map[platform]);
-  renderConvList();
+// ── CONNECT MODAL ──────────────────────────────────
+function showConnectModal(platform) {
+  const p = PLATFORMS[platform];
+  const info = MODAL_INFO[platform];
+  const n8nBase = document.getElementById('n8n-url-input').value.trim() || 'https://n8n.909it.com.au';
+  const icons = { facebook:'#1877F2', instagram:'#C13584', whatsapp:'#25D366', linkedin:'#0A66C2' };
+  const svgs = {
+    facebook: '<svg width="22" height="22" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>',
+    instagram: '<svg width="22" height="22" viewBox="0 0 24 24" fill="#C13584"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>',
+    whatsapp: '<svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>',
+    linkedin: '<svg width="22" height="22" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>'
+  };
+  document.getElementById('modal-icon').style.background = p.bg;
+  document.getElementById('modal-icon').innerHTML = svgs[platform];
+  document.getElementById('modal-title').textContent = `Connect ${platform.charAt(0).toUpperCase()+platform.slice(1)}`;
+  document.getElementById('modal-handle').textContent = p.label;
+  document.getElementById('modal-sub').textContent = info.sub;
+
+  document.getElementById('modal-steps').innerHTML = info.steps.map((s, i) => {
+    const codeVal = s.urlSuffix ? n8nBase + s.urlSuffix : s.code;
+    return `<div class="oauth-step"><div class="step-num">${i+1}</div><div class="step-text">${s.text}${codeVal ? `<code class="step-code">${codeVal}</code>` : ''}</div></div>`;
+  }).join('');
+
+  const isConnected = cfg.connected && cfg.connected[platform];
+  const btn = document.getElementById('modal-primary-btn');
+  if (isConnected) {
+    btn.textContent = 'Disconnect platform';
+    btn.className = 'modal-btn secondary';
+    btn.onclick = () => { disconnectPlatform(platform); closeModal(); };
+  } else {
+    btn.textContent = `Mark as connected`;
+    btn.className = 'modal-btn primary';
+    btn.onclick = () => { markConnected(platform); closeModal(); };
+  }
+  document.getElementById('modal-connect').classList.add('show');
 }
 
-function doSearch() {
-  searchQuery = document.getElementById('search-input').value.toLowerCase();
-  renderConvList();
+function markConnected(platform) {
+  if (!cfg.connected) cfg.connected = {};
+  cfg.connected[platform] = true;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(cfg));
+  markRowConnected(platform);
+  renderConnectionsList();
+  showToast(`${platform.charAt(0).toUpperCase()+platform.slice(1)} marked as connected`, '#25D366');
 }
 
-function getFilteredConvs() {
+function disconnectPlatform(platform) {
+  if (cfg.connected) cfg.connected[platform] = false;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(cfg));
+  const row = document.getElementById('row-' + platform);
+  const btn = document.getElementById('btn-' + platform);
+  if (row) row.classList.remove('connected');
+  if (btn) { btn.textContent = 'Connect'; btn.className = 'plat-action'; }
+  renderConnectionsList();
+  showToast(`${platform.charAt(0).toUpperCase()+platform.slice(1)} disconnected`, '#e8001c');
+}
+
+function markRowConnected(platform) {
+  const row = document.getElementById('row-' + platform);
+  const btn = document.getElementById('btn-' + platform);
+  if (row) row.classList.add('connected');
+  if (btn) { btn.textContent = 'Connected'; btn.className = 'plat-action connected-btn'; }
+}
+
+function closeModal() { document.getElementById('modal-connect').classList.remove('show'); }
+document.getElementById('modal-connect').addEventListener('click', e => { if (e.target === document.getElementById('modal-connect')) closeModal(); });
+
+// ── FETCH FROM n8n ──────────────────────────────────
+async function fetchConversations() {
+  try {
+    const res = await fetch(`${cfg.n8nUrl}/webhook/socialdesk/conversations`, {
+      headers: { 'X-API-Key': cfg.apiKey || '' }
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    conversations = data.conversations || [];
+    renderConvList();
+    updateStats();
+    if (currentConv) {
+      const updated = conversations.find(c => c.conversationId === currentConv.conversationId);
+      if (updated) { currentConv = updated; renderMessages(); }
+    }
+  } catch (err) {
+    console.warn('n8n fetch failed:', err.message);
+    if (conversations.length === 0) {
+      document.getElementById('conv-list').innerHTML = `<div class="loading-state" style="flex-direction:column;gap:6px;"><span style="font-size:13px;color:#e8001c;">Cannot reach n8n</span><span style="font-size:12px;color:#a8a8a3;">${cfg.n8nUrl}</span></div>`;
+    }
+  }
+}
+
+// ── RENDER ─────────────────────────────────────────
+function relTime(ts) {
+  const diff = Date.now() - new Date(ts).getTime();
+  const m = Math.floor(diff/60000);
+  if (m < 1) return 'just now';
+  if (m < 60) return m + 'm ago';
+  const h = Math.floor(m/60);
+  if (h < 24) return h + 'h ago';
+  return Math.floor(h/24) + 'd ago';
+}
+
+function initials(name) {
+  return name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+}
+
+function getFiltered() {
   return conversations.filter(c => {
-    const matchPlat = currentFilter === 'all' || c.platform === currentFilter;
-    const matchSearch = !searchQuery || c.name.toLowerCase().includes(searchQuery) || (c.msgs[c.msgs.length - 1]?.text || '').toLowerCase().includes(searchQuery);
-    return matchPlat && matchSearch;
+    const matchP = currentFilter === 'all' || c.platform === currentFilter;
+    const matchS = !searchQuery || c.senderName.toLowerCase().includes(searchQuery) || (c.lastMessage||'').toLowerCase().includes(searchQuery);
+    return matchP && matchS;
   });
 }
 
 function renderConvList() {
   const list = document.getElementById('conv-list');
-  const filtered = getFilteredConvs();
+  const filtered = getFiltered();
   if (filtered.length === 0) {
-    list.innerHTML = '<div style="padding:24px 16px; text-align:center; font-size:12px; color:#a8a8a3;">No conversations found</div>';
+    list.innerHTML = '<div class="loading-state">No conversations found</div>';
     return;
   }
   list.innerHTML = filtered.map(c => {
     const p = PLATFORMS[c.platform];
-    const isActive = currentConv && currentConv.id === c.id;
-    const lastMsg = c.msgs[c.msgs.length - 1];
-    return `
-      <div class="conv-item${isActive ? ' active' : ''}${c.unread > 0 ? ' unread' : ''}" onclick="openConv(${c.id})">
-        <div class="conv-row1">
-          <div class="conv-avatar" style="background:${p.bg}; color:${p.color};">
-            ${c.initials}
-            <div class="conv-avatar-plat" style="background:${p.bg};">${p.icon}</div>
-          </div>
-          <div class="conv-meta">
-            <div class="conv-name">${c.name}</div>
-          </div>
-          <div class="conv-badges">
-            ${c.unread > 0 ? `<div class="unread-badge">${c.unread}</div>` : ''}
-          </div>
-          <div class="conv-time">${c.time}</div>
-        </div>
-        <div class="conv-preview">${lastMsg ? lastMsg.text : ''}</div>
+    const active = currentConv && currentConv.conversationId === c.conversationId;
+    return `<div class="conv-item${active?' active':''}${c.unreadCount>0?' unread':''}" onclick="openConv('${c.conversationId}')">
+      <div class="conv-row1">
+        <div class="conv-avatar" style="background:${p.bg};color:${p.color};">${initials(c.senderName)}<div class="conv-avatar-plat" style="background:${p.bg};">●</div></div>
+        <div class="conv-meta"><div class="conv-name">${c.senderName}</div></div>
+        ${c.unreadCount>0?`<div class="unread-badge">${c.unreadCount}</div>`:''}
+        <div class="conv-time">${relTime(c.lastTimestamp)}</div>
       </div>
-    `;
+      <div class="conv-preview">${c.lastMessage||''}</div>
+    </div>`;
   }).join('');
 }
 
-function openConv(id) {
-  currentConv = conversations.find(c => c.id === id);
-  currentConv.unread = 0;
-  renderConvList();
-  updateStats();
+function openConv(convId) {
+  currentConv = conversations.find(c => c.conversationId === convId);
+  if (!currentConv) return;
+  currentConv.unreadCount = 0;
+  if (!isDemo) {
+    fetch(`${cfg.n8nUrl}/webhook/socialdesk/mark-read`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-API-Key': cfg.apiKey || '' },
+      body: JSON.stringify({ conversationId: convId })
+    }).catch(()=>{});
+  }
 
   const p = PLATFORMS[currentConv.platform];
-
   document.getElementById('chat-empty').style.display = 'none';
-  const chatOpen = document.getElementById('chat-open');
-  chatOpen.style.display = 'flex';
+  const co = document.getElementById('chat-open');
+  co.style.display = 'flex';
 
   const av = document.getElementById('ch-avatar');
-  av.textContent = currentConv.initials;
-  av.style.background = p.bg;
-  av.style.color = p.color;
-
-  const pi = document.getElementById('ch-plat-indicator');
-  pi.style.background = p.bg;
-  pi.innerHTML = p.icon;
-
-  document.getElementById('ch-name').textContent = currentConv.name;
+  av.textContent = initials(currentConv.senderName);
+  av.style.background = p.bg; av.style.color = p.color;
+  document.getElementById('ch-name').textContent = currentConv.senderName;
   document.getElementById('ch-dot').style.background = p.color;
   document.getElementById('ch-platform-label').textContent = p.label;
-  document.getElementById('ch-time-label').textContent = currentConv.date;
-
   document.getElementById('comp-dot').style.background = p.color;
   document.getElementById('comp-platform').textContent = p.label;
 
-  renderMessages();
-
-  const rp = document.getElementById('right-panel');
-  rp.style.display = 'flex';
-  document.getElementById('rp-name').textContent = currentConv.name;
+  document.getElementById('right-panel').style.display = 'flex';
+  document.getElementById('rp-name').textContent = currentConv.senderName;
   document.getElementById('rp-platform').textContent = p.label;
-  document.getElementById('rp-date').textContent = currentConv.date;
-  document.getElementById('qr-section').style.display = 'block';
+  document.getElementById('rp-senderid').textContent = currentConv.senderId;
 
-  const tags = document.getElementById('rp-tags');
-  if (currentConv.tag) {
-    const tagMap = { new: ['tag-new', 'New lead'], follow: ['tag-follow', 'Following up'], hot: ['tag-hot', 'Hot lead'] };
-    const [cls, label] = tagMap[currentConv.tag];
-    tags.innerHTML = `<div class="rp-tag ${cls}">${label}</div>`;
-  } else {
-    tags.innerHTML = '';
-  }
+  renderMessages();
+  renderConvList();
+  updateStats();
 }
 
 function renderMessages() {
   const wrap = document.getElementById('messages-wrap');
+  const msgs = currentConv.messages || [];
   wrap.innerHTML = '<div class="date-divider">Today</div>';
-  currentConv.msgs.forEach(m => {
-    const div = document.createElement('div');
-    div.className = `msg-group ${m.dir === 'in' ? 'incoming' : 'outgoing'}`;
-    div.innerHTML = `
-      <div class="msg-bubble">${m.text}</div>
-      <div class="msg-time">${m.time}</div>
-    `;
-    wrap.appendChild(div);
+  msgs.forEach(m => {
+    const d = document.createElement('div');
+    d.className = `msg-group ${m.direction==='in'?'incoming':'outgoing'}`;
+    const t = new Date(m.timestamp);
+    const timeStr = t.getHours()+':'+String(t.getMinutes()).padStart(2,'0')+(t.getHours()<12?' am':' pm');
+    d.innerHTML = `<div class="msg-bubble">${m.text}</div><div class="msg-time">${timeStr}</div>`;
+    wrap.appendChild(d);
   });
   wrap.scrollTop = wrap.scrollHeight;
 }
 
-function sendMessage() {
+async function sendMessage() {
   const ta = document.getElementById('composer-ta');
   const text = ta.value.trim();
   if (!text || !currentConv) return;
 
-  const now = new Date();
-  const h = now.getHours();
-  const m = String(now.getMinutes()).padStart(2, '0');
-  const time = `${h}:${m} ${h < 12 ? 'am' : 'pm'}`;
+  const btn = document.getElementById('send-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="loading-spinner"></div>';
 
-  currentConv.msgs.push({ dir: 'out', text, time });
-  currentConv.time = 'just now';
-  ta.value = '';
-  ta.style.height = 'auto';
+  const outMsg = {
+    id: 'local-' + Date.now(),
+    direction: 'out',
+    text,
+    timestamp: new Date().toISOString()
+  };
 
-  renderMessages();
+  if (isDemo) {
+    currentConv.messages.push(outMsg);
+    currentConv.lastMessage = text;
+    ta.value = ''; ta.style.height = 'auto';
+    renderMessages(); renderConvList();
+    btn.disabled = false; btn.innerHTML = 'Send <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+    showToast('Sent (demo mode)', '#25D366');
+    return;
+  }
+
+  try {
+    const res = await fetch(`${cfg.n8nUrl}/webhook/socialdesk/send`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-API-Key': cfg.apiKey || '' },
+      body: JSON.stringify({ platform: currentConv.platform, recipientId: currentConv.senderId, text })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    currentConv.messages.push(outMsg);
+    currentConv.lastMessage = text;
+    ta.value = ''; ta.style.height = 'auto';
+    renderMessages(); renderConvList();
+    showToast('Message sent', PLATFORMS[currentConv.platform].color);
+  } catch (err) {
+    showToast('Failed to send: ' + err.message, '#e8001c');
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = 'Send <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+}
+
+function handleKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
+function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 120)+'px'; }
+function insertQR(btn) { const ta = document.getElementById('composer-ta'); ta.value = btn.textContent.trim(); ta.focus(); autoResize(ta); }
+function markResolved() { if (currentConv) { showToast('Conversation marked as resolved', '#25D366'); } }
+
+function filterBy(platform, el) {
+  currentFilter = platform;
+  document.querySelectorAll('.filter-pill').forEach(p => p.className = 'filter-pill');
+  const map = { all:'active', facebook:'active-fb', instagram:'active-ig', linkedin:'active-li', whatsapp:'active-wa' };
+  el.classList.add(map[platform]);
   renderConvList();
-  showToast('Message sent', PLATFORMS[currentConv.platform].color);
 }
 
-function handleKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-}
-
-function autoResize(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
-}
-
-function insertQuickReply(btn) {
-  const ta = document.getElementById('composer-ta');
-  ta.value = btn.textContent.trim();
-  ta.focus();
-  autoResize(ta);
-}
+function doSearch() { searchQuery = document.getElementById('search-input').value.toLowerCase(); renderConvList(); }
 
 function updateStats() {
-  const total = conversations.reduce((a, c) => a + c.unread, 0);
-  document.getElementById('stat-unread').textContent = `${total} unread`;
-  document.getElementById('stat-convs').textContent = `${conversations.length} conversations`;
+  const total = conversations.reduce((a,c)=>a+c.unreadCount,0);
+  document.getElementById('stat-unread').textContent = total+' unread';
+  document.getElementById('stat-convs').textContent = conversations.length+' conversations';
   document.getElementById('badge-total').textContent = total;
-  document.getElementById('badge-total').style.display = total > 0 ? '' : 'none';
+}
+
+function setView(v) {
+  document.getElementById('layout-inbox').style.display = v==='inbox'?'flex':'none';
+  document.getElementById('layout-connections').style.display = v==='connections'?'flex':'none';
+  document.getElementById('nav-inbox').classList.toggle('active', v==='inbox');
+  document.getElementById('nav-connections').classList.toggle('active', v==='connections');
 }
 
 function renderConnectionsList() {
   const list = document.getElementById('connections-list');
   list.innerHTML = Object.entries(PLATFORMS).map(([key, p]) => {
-    const isConn = connectedPlatforms.has(key);
-    return `
-      <div style="display:flex; align-items:center; gap:14px; padding:16px; border:1.5px solid ${isConn ? '#22c55e' : '#e5e5e2'}; border-radius:10px; margin-bottom:10px; background:${isConn ? '#f0fdf4' : '#fff'};">
-        <div style="width:40px;height:40px;border-radius:10px;background:${p.bg};display:flex;align-items:center;justify-content:center;flex-shrink:0;">${p.icon.replace('width="16" height="16"', 'width="22" height="22"')}</div>
-        <div style="flex:1;">
-          <div style="font-size:14px;font-weight:500;">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
-          <div style="font-size:12px;color:${isConn ? '#16a34a' : '#a8a8a3'};">${isConn ? 'Connected and active' : 'Not connected'}</div>
-        </div>
-        <button onclick="connectPlatform('${key}')" style="padding:7px 16px;border-radius:6px;border:1.5px solid ${isConn ? '#22c55e' : '#e5e5e2'};background:${isConn ? '#f0fdf4' : '#fff'};color:${isConn ? '#16a34a' : '#4a4a47'};font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;">
-          ${isConn ? 'Manage' : 'Connect'}
-        </button>
-      </div>
-    `;
+    const isConn = cfg.connected && cfg.connected[key];
+    return `<div class="conn-card${isConn?' connected':''}">
+      <div style="width:40px;height:40px;border-radius:10px;background:${p.bg};display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;">●</div>
+      <div style="flex:1;"><div style="font-size:14px;font-weight:500;">${key.charAt(0).toUpperCase()+key.slice(1)}</div><div class="conn-status ${isConn?'ok':'no'}">${isConn?'Connected and active':'Not connected'}</div></div>
+      <button onclick="showConnectModal('${key}')" style="padding:7px 16px;border-radius:6px;border:1.5px solid ${isConn?'#22c55e':'#e5e5e2'};background:${isConn?'#f0fdf4':'#fff'};color:${isConn?'#16a34a':'#4a4a47'};font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;">${isConn?'Manage':'Connect'}</button>
+    </div>`;
   }).join('');
 }
 
 function showToast(msg, color) {
   const wrap = document.getElementById('toast-wrap');
-  const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.innerHTML = `<div class="toast-dot" style="background:${color};"></div>${msg}`;
-  wrap.appendChild(toast);
-  setTimeout(() => toast.remove(), 3000);
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.innerHTML = `<div class="toast-dot" style="background:${color};"></div>${msg}`;
+  wrap.appendChild(t);
+  setTimeout(()=>t.remove(), 3500);
 }
-
-// close modal on overlay click
-document.getElementById('modal-connect').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
 </script>
 </body>
 </html>
